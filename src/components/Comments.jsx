@@ -9,6 +9,7 @@ export const Comments = ({ videoId }) => {
     const [showCommentBtn, setshowCommentBtn] = useState(false)
     const [commentvalue, setcommentvalue] = useState("")
     const [editValue, seteditValue] = useState("")
+    const [message, setmessage] = useState("")
     const getAllComments = async () => {
         const data = await fetch(`${url}/api/comment/get-comments/${videoId}`, {
             credentials: "include"
@@ -25,6 +26,7 @@ export const Comments = ({ videoId }) => {
     }
 
     const postComment = async () => {
+        setmessage("Posting comment...")
         const postComment = await fetch(`${url}/api/comment/add-comment/${videoId}`,
             {
                 credentials: "include",
@@ -37,16 +39,17 @@ export const Comments = ({ videoId }) => {
                 }
             }
         )
-        const comment = await postComment.json()
+        // const comment = await postComment.json()
         // console.log(comment)
         setcommentvalue("")
+        setmessage("")
         getAllComments()
     }
 
     const likeComment = async (commentId) => {
         const data = await fetch(`${url}/api/like/toogle-comment-like/${commentId}`, { credentials: "include" })
-        const res = await data.json()
-        console.log(res)
+        // const res = await data.json()
+        // console.log(res)
         getAllComments()
     }
 
@@ -102,6 +105,7 @@ export const Comments = ({ videoId }) => {
                     setshowCommentBtn(false)
                     setcommentvalue("")
                 }}>Cancel</button>
+                <div className='text-2xl font-bold'>{message}</div>
             </div>
             {/* Write a comment ends here */}
 

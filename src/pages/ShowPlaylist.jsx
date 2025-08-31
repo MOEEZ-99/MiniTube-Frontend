@@ -14,6 +14,7 @@ export default function ShowPlaylist() {
   const [editName, setEditName] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [openMenu, setOpenMenu] = useState(null); 
+  const [message, setmessage] = useState("")
 
   const shortText = (s = "", n = 60) =>
     s.length > n ? s.slice(0, n - 1) + "…" : s
@@ -79,6 +80,7 @@ export default function ShowPlaylist() {
 
   const handleSave = async () => {
     try {
+      setmessage("Saving...")
       const resp = await fetch(`${url}/api/playlist/update-playlist/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -88,7 +90,8 @@ export default function ShowPlaylist() {
           description: editDescription,
         }),
       });
-      await resp.json();
+      // await resp.json();
+      setmessage("")
       setEditing(false);
       fetchPlaylist();
     } catch (err) {
@@ -150,6 +153,8 @@ export default function ShowPlaylist() {
               >
                 Save Changes
               </button>
+
+              <div className="text-2xl font-bold">{message}</div>
             </>
           ) : (
             <>

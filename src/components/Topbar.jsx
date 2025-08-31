@@ -13,7 +13,7 @@ export const Topbar = () => {
 //   const user = useSelector(state => state.user.user)
     useEffect(() => {
     ;(async () => {
-      const res = await fetch("/api/user", { credentials: "include" })
+      const res = await fetch(`${url}/api/user`, { credentials: "include" })
       if (res.ok) {
         const data = await res.json()
         // console.log(data)
@@ -43,12 +43,12 @@ export const Topbar = () => {
 </svg>
 </div>
            <button onClick={async () => {
+             navigate("/login")
       const data = await fetch(`${url}/api/logout`, {
         method: "GET",
         credentials: "include"
       })
       const res = await data.json()
-        navigate("/login")
      }} className="px-5 py-2 rounded-xl bg-red-600 text-white font-semibold shadow-md hover:bg-red-700 hover:shadow-lg active:scale-95 transition-all">
   Logout
 </button>

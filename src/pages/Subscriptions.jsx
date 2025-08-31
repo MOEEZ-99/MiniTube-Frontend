@@ -5,12 +5,15 @@ import { Topbar } from '../components/Topbar'
 
 export const Subscriptions = () => {
   const [subscriptions, setsubscriptions] = useState([])
+  const [loading, setloading] = useState(false)
   const navigate = useNavigate()
   const url = import.meta.env.VITE_API_URL
   const getUserSubscriptions = async () => {
+    setloading(true)
     const data = await fetch(`${url}/api/my-subscriptions`,{credentials:"include"})
     const res = await data.json()
     console.log(res)
+    setloading(false)
     setsubscriptions(res.data)
   }
   const unSubscribe =  async (channelId) => { 
@@ -25,6 +28,11 @@ export const Subscriptions = () => {
   useEffect(() => {
     getUserSubscriptions()
   },[])
+  if(loading) return <p>Loading...</p>
+  if(subscriptions.length === 0) return <>
+  <Topbar />
+  No subscriptions found
+  .</>
   return (
     <>
     <Topbar />

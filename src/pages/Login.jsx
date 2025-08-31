@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom'
 export const Login = () => {
     const navigate = useNavigate()
     const [errors, seterrors] = useState("")
+    const [loading, setloading] = useState(false)
     const url = import.meta.env.VITE_API_URL
     const submit = async (e) => {
+        setloading(true)
         e.preventDefault()
         const data = await fetch(`${url}/api/login`,{
             method: "POST",
@@ -20,15 +22,29 @@ export const Login = () => {
         console.log(data)
         if(data.status === 200){
             navigate("/")
-        } else{
-            if(data.status === 404){
-                seterrors("User not found")
-            }
-            if(data.status === 401){
-                seterrors("Inavlid credentials")
-            }
+            setloading(false)
+        } 
+        else if(data.status === 404){
+            setloading(false)
+            seterrors("User not found")
+        }else if(data.status === 401){
+            setloading(false)
+            seterrors("Invalid password")
+        }else if(data.status === 500){
+            setloading(false)
+            seterrors("Server error")
         }
     }
+    if(loading){
+         return (
+           <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 dark:from-slate-300 dark:to-slate-350">
+             <div className="relative w-16 h-16">
+               <div className="absolute inset-0 rounded-full border-4 border-slate-300 dark:border-red-500"></div>
+               <div className="absolute inset-0 rounded-full border-4 border-white border-t-transparent animate-spin"></div>
+             </div>
+           </div>
+         )
+        }
   return (
     <>
         <div className='main h-[100vh] w-full flex items-center justify-center'>

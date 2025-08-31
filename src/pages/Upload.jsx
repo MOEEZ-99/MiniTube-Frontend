@@ -4,6 +4,7 @@ import { Navigate,useNavigate } from "react-router-dom";
 
 export default function UploadPage() {
     const navigate = useNavigate()
+    const [loading, setloading] = useState(false)
     const url = import.meta.env.VITE_API_URL
   const [form, setForm] = useState({
     videoFile: null,
@@ -21,6 +22,7 @@ export default function UploadPage() {
   };
 
   const handleSubmit = async (e) => {
+    setloading(true)
     e.preventDefault();
     const data = new FormData();
     data.append("videoFile", form.videoFile);
@@ -31,10 +33,14 @@ export default function UploadPage() {
     // fetch("/api/upload", { method: "POST", body: data });
     // console.log("FormData :", [...data.entries()]);
     const upload = await fetch(`${url}/api/video/upload-video`, { credentials:"include",method: "POST", body: data });
-    const res = await upload.json()
+    setloading(false)
+    // const res = await upload.json()
     // console.log(res)
     navigate("/my-videos")
   };
+  if(loading){
+    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">

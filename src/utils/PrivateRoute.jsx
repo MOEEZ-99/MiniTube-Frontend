@@ -6,6 +6,7 @@ import { setUser, clearUser } from "../features/userSlice";
 
 const PrivateRoute = () => {
   const dispatch = useDispatch();
+  const url = import.meta.env.VITE_API_URL
   const user = useSelector((state) => state.user.user);
   const [loading, setLoading] = useState(true);
   const sidebar = useSelector((state) => state.sidebar.show);
@@ -13,13 +14,14 @@ const PrivateRoute = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch("/api/user", {
+        const res = await fetch(`${url}/api/user`, {
           credentials: "include",
         });
         if (res.ok) {
           const data = await res.json();
           dispatch(setUser(data))
         } else {
+          alert("Token expired!")
           dispatch(clearUser())
         }
       } catch (err) {

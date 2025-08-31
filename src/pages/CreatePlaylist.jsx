@@ -1,10 +1,12 @@
 import React, { useState,useRef } from "react"
 import { useNavigate } from "react-router-dom"
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette"
 
 export const CreatePlaylist = () => {
     const url = import.meta.env.VITE_API_URL
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+  const [loading, setloading] = useState(false)
   const navigate = useNavigate()
   const btnRef = useRef()
 
@@ -23,14 +25,20 @@ export const CreatePlaylist = () => {
         }
     })
     const res = await data.json()
-    console.log(res)
+    // console.log(res)
     btnRef.current.disabled = false
+    setloading(false)
     if(res.statusCode===200){
         navigate("/playlists")
+        setloading(false)
     }else{
         alert("Error creating playlist")
+        setloading(false)
     }
     // console.log(res)
+  }
+  if(loading){
+    return <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">Loading...</div>;
   }
 
   return (

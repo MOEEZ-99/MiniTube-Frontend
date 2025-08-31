@@ -144,9 +144,9 @@ export const LikedVideos = () => {
               const owner = getOwner(video)
               const thumb = video.coverImage || video.thumbnail || (video.videoFile ? `${video.videoFile}` : '')
               const title = video.title || video.description || 'Untitled'
-              const channelName = owner?.fullName || owner?.username || owner?.name || 'Unknown'
+              const channelName = owner?.username
               const profilePic = owner?.profilePic || owner?.avatar || null
-              const views = video.views
+              const views = video.views || video.totalViews
               const createdAt = video.createdAt || like.createdAt
 
               return (
@@ -159,13 +159,11 @@ export const LikedVideos = () => {
                       className="w-full h-44 object-cover md:h-40 lg:h-44"
                     />
 
-                    {/* duration badge (static example) */}
                     <div className="absolute bottom-3 right-3 bg-black/70 px-2 py-1 rounded text-xs text-white/90 flex items-center gap-2">
                       <Play size={14} />
                       <span>{Math.floor(video.duration)}</span>
                     </div>
 
-                    {/* hover actions */}
                     <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition">
                       <button className="bg-black/60 p-2 rounded-full">
                         <MoreHorizontal size={18} />
@@ -184,13 +182,12 @@ export const LikedVideos = () => {
                       )}
                     </div>
 
-                    {/* title & meta */}
                     <div className="flex-1">
                       <h3 className="text-sm md:text-base font-semibold leading-snug line-clamp-2">{title}</h3>
                       <div className="mt-1 text-xs text-slate-400 flex flex-col sm:flex-row sm:items-center sm:gap-2">
                         <span className="truncate">{channelName}</span>
                         <span className="hidden sm:inline">•</span>
-                        <span>{formatViews(views)} views</span>
+                        {/* <span>{formatViews(views)} views</span> */}
                         <span className="hidden sm:inline">•</span>
                         <span>{formatDate(createdAt)}</span>
                       </div>
@@ -202,7 +199,7 @@ export const LikedVideos = () => {
                         className="flex items-center gap-2 px-3 py-2 rounded-lg bg-neutral-700/60 hover:bg-neutral-700 transition text-sm text-slate-100"
                         title="Dislike"
                       >
-                        <span className="hidden sm:inline">Dislike</span>
+                        <span className="sm:inline">Dislike</span>
                       </button>
                     </div>
                   </div>
@@ -212,7 +209,7 @@ export const LikedVideos = () => {
         </section>
 
         <div className="mt-8 text-center text-slate-400">
-          <p className="text-sm">End of liked videos</p>
+          {/* <p className="text-sm">End of liked videos</p> */}
         </div>
       </div>
     </div>

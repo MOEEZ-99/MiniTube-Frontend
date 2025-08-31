@@ -108,7 +108,7 @@ export const MyVideos = () => {
                       {v.isEditing && (
                         <div className="absolute top-full right-0 bg-white shadow-md rounded-md mt-2 z-10">
                           <ul className="flex flex-col text-sm">
-                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Edit</li>
+                            {/* <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Edit</li> */}
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => {deleteVideo(v._id)}}>Delete</li>
                           </ul>
                         </div>

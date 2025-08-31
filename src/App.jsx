@@ -15,8 +15,14 @@ import UploadPage from "./pages/Upload";
 import { CreatePlaylist } from "./pages/CreatePlaylist";
 import ShowPlaylist  from "./pages/ShowPlaylist";
 import { MyProfile } from "./pages/MyProfile";
+import { useEffect } from "react";
 
 function App() {
+  // useEffect(async () => {
+  //   const data = await fetch(`${import.meta.env.VITE_API_URL}/test`,{credentials:"include"})
+  //   const res = data.json()
+  //   console.log(res)
+  // },[])
   return (
      <Provider store={store}>
             <BrowserRouter>
