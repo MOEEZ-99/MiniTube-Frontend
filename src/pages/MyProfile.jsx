@@ -7,14 +7,17 @@ export const MyProfile = () => {
   const [formData, setFormData] = useState({fullName:""})
   const [coverImage, setcoverImage] = useState(null)
   const [profilePic, setprofilePic] = useState(null)
+  const [loading, setloading] = useState(false)
   const url = import.meta.env.VITE_API_URL
 
   const getUser = async () => { 
+    setloading(true)
     const data = await fetch(`${url}/api/user`, { credentials:"include" })
     const res = await data.json()
     console.log(res)
     setUser(res.data)
     setFormData(res.data)
+    setloading(false)
   }
 
   useEffect(() => {
@@ -49,29 +52,38 @@ export const MyProfile = () => {
    }
   const updateCover = async (id) => { 
      const fd = new FormData()
+     setloading(true)
     fd.append("coverImage", coverImage)
       const data = await fetch(`${url}/api/update-coverImage`, {
         method: "PUT",
         credentials: "include",
         body:fd,
       })
-      const res = await data.json()
+      setloading(false)
+      setEditMode(false)
+      getUser()
+      // const res = await data.json()
       // console.log(res)
-      window.location.reload(true)
+      // window.location.reload(true)
    }
    const updateProfile = async (id) => {
      const fd = new FormData()
+     setloading(true)
     fd.append("profilePic", profilePic)
       const data = await fetch(`${url}/api/update-profilePic`, {
         method: "PUT",
         credentials: "include",
         body:fd,
       })
-      const res = await data.json()
+      getUser()
+      setEditMode(false)
+      setloading(false)
+      // const res = await data.json()
       // console.log(res)
-      window.location.reload(true)
+      // window.location.reload(true)
     }
    const updateUser = async () => { 
+    setloading(true)
       const data = await fetch(`${url}/api/update-user`, {
         method: "PUT",
         credentials: "include",
@@ -80,12 +92,16 @@ export const MyProfile = () => {
           "Content-Type": "application/json"
         }
       })
-      const res = await data.json()
+      setloading(false)
+      setEditMode(false)
+      getUser()
+      // const res = await data.json()
       // console.log(res)
-      window.location.reload(true)
+      // window.location.reload(true)
     }
 
   if (!user) return <div>Loading...</div>
+  if(loading) return <div className='flex flex-col items-center justify-center h-screen w-full'><CookingPot className='animate-spin'/><p>Loading...</p></div>
 
   return (
     <div className="flex flex-col items-center w-full">
